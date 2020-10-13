@@ -23,7 +23,7 @@ const importData = async() => {
         //get admin id
         const adminUser = createdUsers[0]._id
         
-        //insert admin id for each product
+        //insert admin id in each product
         const sampleProducts = products.map(product => {
             return {...product, user: adminUser}
         })
