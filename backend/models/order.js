@@ -1,6 +1,6 @@
-import mongoose, { mongo } from 'mongoose'
+import mongoose from 'mongoose'
 
-const orderSchema = moongose.Schema({
+const orderSchema = mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
