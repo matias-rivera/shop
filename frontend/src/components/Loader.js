@@ -14,7 +14,7 @@ const Loader = () => {
             }}
         >
 
-            <span class="sr-only">
+            <span className="sr-only">
                 Loading...
             </span>
 
