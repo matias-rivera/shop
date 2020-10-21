@@ -1,10 +1,12 @@
 import asyncHandler from 'express-async-handler'
-import Order from '../models/productModel.js'
+import Order from '../models/orderModel.js'
 
 //@desc     Create new order
 //@route    POST /api/orders
 //@access   Private
 const addOrderItems = asyncHandler(async (req, res) =>{
+    
+    //get data from request
     const { 
         orderItems, 
         shippingAddress, 
@@ -15,6 +17,7 @@ const addOrderItems = asyncHandler(async (req, res) =>{
         totalPrice
      } = req.body
 
+     //if cart is empty
      if(orderItems && orderItems.length === 0){
          res.status(400)
          throw new Error('No items in order')
