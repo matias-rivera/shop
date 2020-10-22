@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import axios from 'axios'
 import {PayPalButton} from 'react-paypal-button-v2'
 import { Link } from 'react-router-dom';
-import { Button, Row, Col, ListGroup, Image, Card } from 'react-bootstrap'
+import {  Row, Col, ListGroup, Image, Card } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from './../components/Message'
 import { getOrderDetails, payOrder } from './../actions/orderActions';
@@ -12,6 +12,7 @@ import { ORDER_PAY_RESET } from '../constants/orderConstants';
 const OrderScreen = ({ match }) => {
 
     const orderId = match.params.id
+    
 
     const [sdkReady, setSdkReady] = useState(false)
     
@@ -57,9 +58,9 @@ const OrderScreen = ({ match }) => {
         }
 
         //if there is not order and order was successfully paid
-        if(!order || successPay){
-            dispatch({ type: ORDER_PAY_RESET })
+        if(!order || successPay || order._id != orderId){
             dispatch(getOrderDetails(orderId))
+            dispatch({ type: ORDER_PAY_RESET })
         } else if(!order.isPaid){
             //if order wasn't paid, show paypal checkout
             if(!window.paypal){
@@ -69,7 +70,7 @@ const OrderScreen = ({ match }) => {
             }
         }
 
-    }, [dispatch, orderId, successPay, order])
+    }, [dispatch, orderId, successPay, order ])
 
     //handle payment
     const successPaymentHandler = (paymentResult) => {
