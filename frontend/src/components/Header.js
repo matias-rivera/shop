@@ -4,6 +4,7 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap"
 import { logout } from '../actions/userActions'
 
+
 const Header = () => {
 
     const dispatch = useDispatch()
@@ -26,7 +27,7 @@ const Header = () => {
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="ml-auto">
                             <LinkContainer to="/cart">
-                                <Nav.Link ><i className="fas fa-shopping-cart" ></i> Cart</Nav.Link>
+                                <Nav.Link ><i className="fas fa-shopping-cart" ></i> CART</Nav.Link>
                             </LinkContainer>
                             {userInfo ? (
                                 <NavDropdown
@@ -47,6 +48,23 @@ const Header = () => {
                             <Nav.Link ><i className="fas fa-user" ></i> Sign in</Nav.Link>
                         </LinkContainer>
                         }
+                        {userInfo && userInfo.isAdmin && (
+                            <NavDropdown
+                            title='Admin'
+                            id='adminmenu'
+                            >
+                                <LinkContainer to="/admin/userslist">
+                                    <NavDropdown.Item>Users</NavDropdown.Item>
+                                </LinkContainer>
+                                <LinkContainer to="/admin/productslist">
+                                    <NavDropdown.Item>Products</NavDropdown.Item>
+                                </LinkContainer>
+                                <LinkContainer to="/admin/orderslist">
+                                    <NavDropdown.Item>Orders</NavDropdown.Item>
+                                </LinkContainer>
+
+                            </NavDropdown>
+                        )}
                             
                             
                         </Nav>
