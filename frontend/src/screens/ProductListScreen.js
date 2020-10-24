@@ -31,9 +31,11 @@ const ProductListScreen = ({history, match}) => {
             history.push('/login') 
         }
 
+        //after create redirect to edit screen
         if(successCreate) {
             history.push(`/admin/product/${createdProduct._id}/edit`)
         } else {
+        //load products
             dispatch(listProducts())
         }
 
