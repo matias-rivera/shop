@@ -6,6 +6,7 @@ import Loader from './../components/Loader';
 import { Row, Col } from 'react-bootstrap';
 import { listProducts } from '../actions/productActions';
 import Paginate from './../components/Paginate';
+import ProductCarousel from './../components/ProductCarousel';
 
 
 const HomeScreen = ({match}) => {
@@ -26,6 +27,7 @@ const HomeScreen = ({match}) => {
     
     return ( 
         <>
+        {!keyword && <ProductCarousel />}
             <h1>Latest Products</h1>
             {loading ? (<Loader />) 
             : error 
