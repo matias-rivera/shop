@@ -59,7 +59,7 @@ const ProductEditScreen = ({match, history}) => {
         
 
         
-    },[dispatch, history, productId, product, successUpdate, productDetails])
+    },[dispatch, history, productId, product, successUpdate])
 
     //handle form
     const submitHandler = (e) => {
