@@ -1,6 +1,6 @@
 import React,{useState, useEffect} from 'react'
 import { Link } from 'react-router-dom'
-import { Form, Button, Row, Col} from 'react-bootstrap'
+import { Form, Button, Row, Col, Image} from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
@@ -46,7 +46,10 @@ const RegisterScreen = ({location, history}) => {
 
     return ( 
         <FormContainer>
-            <h1>Sign up</h1>
+            <Row className='d-flex flex-column align-items-center'>
+                <h1>Sign up</h1>
+                <Image src="/logo.png" />
+            </Row>
             {message && <Message variant='danger'>{message}</Message>}
             {error && <Message variant='danger'>{error}</Message>}
             {loading && <Loader />}

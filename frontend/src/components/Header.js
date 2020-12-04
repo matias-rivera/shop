@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
-import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap"
+import { Navbar, Nav, Container, NavDropdown, Image } from "react-bootstrap"
 import { logout } from '../actions/userActions'
 import SearchBox from './SearchBox';
 import { Route } from 'react-router-dom';
@@ -25,7 +25,7 @@ const Header = () => {
            <Navbar bg="dark"  variant="dark" expand="lg" collapseOnSelect>
                 <Container>
                     <LinkContainer to="/">
-                        <Navbar.Brand>Shop</Navbar.Brand>
+                        <Navbar.Brand><Image src="/favicon.ico" thumbnail/></Navbar.Brand>
                     </LinkContainer>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
@@ -55,7 +55,7 @@ const Header = () => {
                         }
                         {userInfo && userInfo.isAdmin && (
                             <NavDropdown
-                            title='Admin'
+                            title={'ADMIN'}
                             id='adminmenu'
                             >
                                 <LinkContainer to="/admin/userslist">
