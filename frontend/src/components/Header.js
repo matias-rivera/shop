@@ -14,6 +14,9 @@ const Header = () => {
     const userLogin = useSelector(state => state.userLogin)
     const { userInfo } = userLogin
 
+    const cart = useSelector(state => state.cart)
+    const {cartItems} = cart
+
     const logoutHandler = () => {
         dispatch(logout())
         
@@ -22,58 +25,64 @@ const Header = () => {
 
     return (
         <header>
-           <Navbar bg="dark"  variant="dark" expand="lg" collapseOnSelect>
+            <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
                 <Container>
-                    <LinkContainer to="/">
-                        <Navbar.Brand><Image src="/favicon.ico" thumbnail/></Navbar.Brand>
-                    </LinkContainer>
-                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                    <Navbar.Collapse id="basic-navbar-nav">
+                <LinkContainer to="/">
+                        <Navbar.Brand>ELECTRO-SHOP</Navbar.Brand>
+                </LinkContainer>
+                <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+                <Navbar.Collapse id="responsive-navbar-nav">
+                    <Nav>
                         <Route render={({history}) => <SearchBox history={history}/>} />
-                        <Nav className="ml-auto">
-                            <LinkContainer to="/cart">
-                                <Nav.Link ><i className="fas fa-shopping-cart" ></i> CART</Nav.Link>
-                            </LinkContainer>
-                            {userInfo ? (
-                                <NavDropdown
-                                    title={userInfo.name}
-                                    id='username'
-                                >
-                                    <LinkContainer to="/profile">
-                                        <NavDropdown.Item>Profile</NavDropdown.Item>
-                                    </LinkContainer>
-                                    <NavDropdown.Item 
-                                        onClick={logoutHandler}
-                                        >
-                                        Logout
-                                    </NavDropdown.Item>
 
-                                </NavDropdown>
-                            ): <LinkContainer to="/login">
+                    </Nav>
+                    <Nav className="ml-auto">
+                        <LinkContainer to="/cart">
+                            <Nav.Link ><i className="fas fa-shopping-cart" ></i> CART {cartItems.length > 0 && `(${cartItems.length})`}</Nav.Link>
+                        </LinkContainer>
+                        <LinkContainer to="/search">
+                            <Nav.Link >STORE</Nav.Link>
+                        </LinkContainer>
+                        
+                        {userInfo ? (
+                            <NavDropdown
+                                title={userInfo.name}
+                                id='username'
+                                className='mr-0'
+                            >
+                                <LinkContainer to="/profile">
+                                    <NavDropdown.Item>Profile</NavDropdown.Item>
+                                </LinkContainer>
+                                <NavDropdown.Item 
+                                    onClick={logoutHandler}
+                                    >
+                                    Logout
+                                </NavDropdown.Item>
+
+                            </NavDropdown>
+                        ): <LinkContainer to="/login">
                             <Nav.Link ><i className="fas fa-user" ></i> Sign in</Nav.Link>
                         </LinkContainer>
                         }
                         {userInfo && userInfo.isAdmin && (
                             <NavDropdown
-                            title={'ADMIN'}
-                            id='adminmenu'
-                            >
-                                <LinkContainer to="/admin/userslist">
-                                    <NavDropdown.Item>Users</NavDropdown.Item>
-                                </LinkContainer>
-                                <LinkContainer to="/admin/productlist">
-                                    <NavDropdown.Item>Products</NavDropdown.Item>
-                                </LinkContainer>
-                                <LinkContainer to="/admin/orderlist">
-                                    <NavDropdown.Item>Orders</NavDropdown.Item>
-                                </LinkContainer>
+                                title={'ADMIN'}
+                                id='adminmenu'
+                                >
+                                    <LinkContainer to="/admin/userslist">
+                                        <NavDropdown.Item>Users</NavDropdown.Item>
+                                    </LinkContainer>
+                                    <LinkContainer to="/admin/productlist">
+                                        <NavDropdown.Item>Products</NavDropdown.Item>
+                                    </LinkContainer>
+                                    <LinkContainer to="/admin/orderlist">
+                                        <NavDropdown.Item>Orders</NavDropdown.Item>
+                                    </LinkContainer>
 
                             </NavDropdown>
                         )}
-                            
-                            
-                        </Nav>
-                    </Navbar.Collapse>
+                    </Nav>
+                </Navbar.Collapse>
                 </Container>
             </Navbar>
         </header>

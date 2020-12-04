@@ -32,7 +32,7 @@ const HomeScreen = ({match}) => {
         <Meta />
         {!keyword ? <ProductCarousel /> : <Link to='/' className='btn btn-light'>Go Back</Link>}
             <Link to='/search' classname='h1'>
-                <h1>Latest Products</h1>
+                <h1 className='text-center'>Latest Products</h1>
             </Link>
             {loading ? (<Loader />) 
             : error 
@@ -40,10 +40,10 @@ const HomeScreen = ({match}) => {
                 : (
                 <>    
                 <Row>
-                {products.map((product) => (
-                    <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
-                        <Product product={product}/>
-                    </Col>
+                {products.map((product,i) => (
+                    i < 8 ? <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
+                    <Product product={product}/>
+                </Col> : null
                 )) }
                 </Row>
                 <Paginate 
@@ -53,7 +53,7 @@ const HomeScreen = ({match}) => {
                 </>
                 )}
             
-        </>
+        </ >
      );
 }
  

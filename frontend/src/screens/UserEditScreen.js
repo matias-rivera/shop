@@ -62,7 +62,7 @@ const UserEditScreen = ({match, history}) => {
 
             {loading ? <Loader /> : error ? <Message variant='danger'>{error}</Message>
             : (
-                <Form onSubmit={submitHandler}>
+                <Form onSubmit={submitHandler} className='pb-2'>
                 
                 <Form.Group controlId='name'>
                     <Form.Label>

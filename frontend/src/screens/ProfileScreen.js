@@ -58,7 +58,7 @@ const ProfileScreen = ({location, history}) => {
 
 
 
-    return ( <Row>
+    return ( <Row className='p-2'>
 
         <Col md={3}>
             <h1>User Profile</h1>

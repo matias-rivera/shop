@@ -20,7 +20,8 @@ import {
     ORDER_DELIVER_REQUEST,
     ORDER_DELIVER_SUCCESS,
     ORDER_DELIVER_FAIL,
-    ORDER_DELIVER_RESET
+    ORDER_DELIVER_RESET,
+    ORDER_CREATE_RESET
 
 } from '../constants/orderConstants'
 
@@ -40,6 +41,10 @@ export const orderCreateReducer = (state = {}, action) => {
             return {
                 loading: false,
                 error: action.payload
+            }
+        case ORDER_CREATE_RESET:
+            return {
+                order:{}
             }
         default:
             return state

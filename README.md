@@ -30,3 +30,7 @@ _5- Ejecuta el siguiente comando para probar la aplicación:_
 ```
 npm run dev
 ```
+
+### Preview
+![alt text](https://i.ibb.co/7y2HZgk/shop1.png)
+![alt text](https://i.ibb.co/6gYt1GY/shop2.png)

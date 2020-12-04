@@ -95,9 +95,9 @@ const OrderScreen = ({ match, history }) => {
     }
 
     return loading ? <Loader /> : error ? <Message variant='danger'>{error}</Message>
-    : <>
+    : <div className='p-2'>
         <h1>Order {order._id}</h1>
-        <Row>
+        <Row >
             <Col md={8}>
                 <ListGroup variant='flush'>
                     <ListGroup.Item>
@@ -213,7 +213,7 @@ const OrderScreen = ({ match, history }) => {
             </Col>
         </Row>
    
-    </>
+    </div>
 }
  
 export default OrderScreen;

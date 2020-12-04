@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { CART_RESET_ITEMS } from '../constants/cartConstants'
 import {
     ORDER_CREATE_REQUEST,
     ORDER_CREATE_SUCCESS,
@@ -17,7 +18,8 @@ import {
     ORDER_LIST_REQUEST,
     ORDER_DELIVER_REQUEST,
     ORDER_DELIVER_SUCCESS,
-    ORDER_DELIVER_FAIL
+    ORDER_DELIVER_FAIL,
+    ORDER_CREATE_RESET
 } from '../constants/orderConstants'
 
 
@@ -48,6 +50,14 @@ export const createOrder = (order) => async(dispatch, getState) => {
             type: ORDER_CREATE_SUCCESS,
             payload: data
         })
+        dispatch({
+            type: ORDER_CREATE_RESET
+        })
+        dispatch({
+            type: CART_RESET_ITEMS
+        })
+        localStorage.setItem('cartItems', []);
+        
 
     }catch(error){
         dispatch({

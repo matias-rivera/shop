@@ -58,7 +58,7 @@ const SearchScreen = ({match}) => {
     }
 
     return ( 
-        <Row>
+        <Row className='bg-light'>
             <Col className='col-12 col-md-4'>
                 <h3>Categories</h3>
                 <ListGroup>
@@ -75,7 +75,7 @@ const SearchScreen = ({match}) => {
                     }
                     
                 </ListGroup>
-                <h3>Filter by price range</h3>
+                <h3>Filter by price</h3>
                 <ListGroup>
                    <ListGroup.Item active={!range} onClick={(e) => handleRange(e,null)} >All</ListGroup.Item>
                    <ListGroup.Item active={range === 1000} onClick={(e) => handleRange(e,1000)} >$1000</ListGroup.Item>

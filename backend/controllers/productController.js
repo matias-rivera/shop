@@ -52,6 +52,34 @@ const getProducts = asyncHandler(async (req, res) =>{
     
 })
 
+//@desc     Fetch related products
+//@route    GET /api/products/related/:category
+//@access   Public
+const getRelatedProducts = asyncHandler(async (req, res) =>{
+
+    //category
+    const productId = req.query.product
+
+    const product = await Product.findById(productId).populate('category','_id name','Category')
+
+    if(product){
+            Category.find({_id:product.category.id}).then(async category => {
+                const products = await Product.find({_id:{$ne:product._id},category:category})
+                    .populate('category','_id name','Category')
+                    .limit(4)
+                res.json(products)
+                 
+            })
+    }
+
+    
+
+
+   
+
+    
+})
+
 
 
 //@desc     Fetch single product
@@ -191,6 +219,7 @@ const createProductReview = asyncHandler(async (req, res) =>{
 const getTopProducts = asyncHandler(async (req, res) =>{
     
     const products  = await Product.find({})
+        .populate('category','_id name','Category')
         .sort({ rating: -1 })
         .limit(3)
     res.json(products)
@@ -201,6 +230,7 @@ const getTopProducts = asyncHandler(async (req, res) =>{
 
 export {
     getProducts,
+    getRelatedProducts,
     getProductById,
     deleteProduct,
     createProduct,

@@ -46,6 +46,17 @@ export const listProducts = (keyword = '', pageNumber = '', category = '', range
     }
 }
 
+//get products list
+export const getRelatedProducts = (category) =>  async () => { 
+    try{
+        //api call to get related products
+        return await axios.get(`/api/products/related?category=${category}`)
+        
+    } catch(error){
+        return error
+    }
+}
+
 //get product details
 export const listProductDetails = (id) =>  async (dispatch) => { 
     try{

@@ -24,8 +24,8 @@ const App = () => {
   return (
     <Router>
       <Header />
-      <main className="py-3">
-        <Container>
+      <main className="py-3" >
+        <Container className='bg-light px-0'>
           <Route path='/admin/product/:id/edit' component={ProductEditScreen}/>
           <Route path='/admin/productlist/:pageNumber' component={ProductListScreen} exact/>
           <Route path='/admin/productlist' component={ProductListScreen} exact/>

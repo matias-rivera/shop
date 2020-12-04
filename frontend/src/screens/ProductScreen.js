@@ -2,22 +2,29 @@ import React, { useState, useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {Row, Col, Image, ListGroup, Card, Button, Form} from 'react-bootstrap'
-import {listProductDetails, createProductReview} from '../actions/productActions'
+import {listProductDetails, createProductReview, getRelatedProducts, listTopProducts} from '../actions/productActions'
 import Rating from './../components/Rating';
 import Loader from './../components/Loader';
 import Message from '../components/Message';
 import { PRODUCT_CREATE_REVIEW_RESET } from '../constants/productConstants';
 import Meta from '../components/Meta';
+import axios from 'axios';
+import Product from '../components/Product';
 
 const ProductScreen = ({history, match}) => {
     const [qty, setQty] = useState(1)
     const [rating, setRating] = useState(0)
     const [comment, setComment] = useState('')
+    const [relatedProducts, setRelatedProducts] = useState(false)
+    const [relatedLoading, setRelatedLoading] = useState(true)
 
     const dispatch = useDispatch() 
 
     const productDetails = useSelector(state => state.productDetails)
     const {loading, error, product} = productDetails
+
+    const productTopRated = useSelector(state => state.productTopRated)
+    const {loading: loadingTop, error: errorTop, products: productsTop} = productTopRated
  
     const productReviewCreate = useSelector(state => state.productReviewCreate)
     const {success: successProductReview, error: errorProductReview} = productReviewCreate
@@ -26,14 +33,31 @@ const ProductScreen = ({history, match}) => {
     const {userInfo} = userLogin
 
     useEffect(() => {
+
         if(successProductReview){
             alert('review submitted')
             setRating(0)
             setComment('')
             dispatch({type: PRODUCT_CREATE_REVIEW_RESET})
         }
-        dispatch(listProductDetails(match.params.id))
+          dispatch(listProductDetails(match.params.id))
+          dispatch(listTopProducts()) 
+          setRelatedLoading(true)
+        
     }, [dispatch, match, successProductReview])
+
+    useEffect(() => {
+        const related = (productId) => {
+            axios.get(`/api/products/related?product=${productId}`)
+                .then(data => {
+                    setRelatedProducts(data.data)
+                    setRelatedLoading(false)
+                })
+        }
+        if(product && product._id){
+            related(product._id)
+        }
+    }, [product])
     
     //redirect to cart screen
     const addToCartHandler = () => {
@@ -50,6 +74,7 @@ const ProductScreen = ({history, match}) => {
         }))
     }
 
+
     return ( 
         <>
             <Link to="/" className="btn btn-light my-3">
@@ -60,9 +85,9 @@ const ProductScreen = ({history, match}) => {
                 : error 
                 ? <Message variant="danger">{error}</Message>
                 : (     
-                <>
+                    <>
                 <Meta title={product.name}/>
-                <Row>
+                <Row className='px-2'>
                     <Col md={6}>
                         <Image src={product.image} alt={product.name} fluid/>
                     </Col>
@@ -72,7 +97,8 @@ const ProductScreen = ({history, match}) => {
                                 <h3>{product.name}</h3>
                             </ListGroup.Item>
                             <ListGroup.Item>
-                                {product && product.category && product.category.name}
+                                {product.category && product.category.name}
+    
                             </ListGroup.Item>
                             <ListGroup.Item>
                                 <Rating 
@@ -146,9 +172,20 @@ const ProductScreen = ({history, match}) => {
                         </Card>
                     </Col>
                 </Row>
+                <hr/>
+                <h2 className='text-center'>Related Products</h2>
                 <Row>
-                    <Col md={6}>
-                    <h2>Reviews</h2>
+                    
+                    {relatedLoading ? <Loader /> : relatedProducts.map((related) => (
+                        <Col key={related._id} sm={12} md={6} lg={4} xl={3}>
+                            <Product product={related}/>
+                        </Col>
+                    )) }
+                </Row>
+                <hr />
+                <Row>
+                    <Col md={8}>
+                    <h2 className='text-center'>Reviews</h2>
                     {product.reviews.length === 0 && <Message>No Reviews</Message>}
                     <ListGroup variant='flush'>
                         {product.reviews.map(review => (
@@ -204,6 +241,16 @@ const ProductScreen = ({history, match}) => {
                                 </Message>}
                         </ListGroup.Item>
                     </ListGroup>
+                    </Col>
+                    <Col md={4}>
+                    <h2 className='text-center'>Top Products</h2>
+                        {loadingTop ? <Loader /> : (productsTop.map(top => (
+                            <Col key={top._id} sm={12}>
+                                <Product product={top}/>
+                            </Col>
+                        ))
+                            
+                        ) }
                     </Col>
                 </Row>
                 </>
