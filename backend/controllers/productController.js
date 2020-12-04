@@ -1,6 +1,6 @@
 import asyncHandler from 'express-async-handler'
 import Product from '../models/productModel.js'
-
+import Category from '../models/categoryModel.js'
 
 
 //@desc     Fetch all products
@@ -25,6 +25,7 @@ const getProducts = asyncHandler(async (req, res) =>{
 
 
     const products = await Product.find({...keyword})
+        .populate('category','_id name','Category')
         .limit(pageSize)
         .skip(pageSize * (page - 1))
     res.json({products, page, pages: Math.ceil(count / pageSize)})
@@ -35,7 +36,7 @@ const getProducts = asyncHandler(async (req, res) =>{
 //@route    GET /api/products/:id
 //@access   Public
 const getProductById = asyncHandler(async (req, res) =>{
-    const product = await Product.findById(req.params.id)
+    const product = await Product.findById(req.params.id).populate('category','_id name','Category')
     
     if(product){
         res.json(product);
@@ -64,20 +65,26 @@ const deleteProduct = asyncHandler(async (req, res) =>{
 //@route    POST /api/products
 //@access   Private/admin
 const createProduct = asyncHandler(async (req, res) =>{
-    const product = new Product({
-        name: 'Sample name',
-        price: 0,
-        user: req.user._id,
-        image: '/images/sample.jpg',
-        brand: 'Sample brand',
-        category: 'Sample category',
-        countInStock: 0,
-        numReviews: 0,
-        description: 'Sample description'
-    })
+    
+    const category = await Category.findOne()
+    
+    if(category)
+    {
+        const product = new Product({
+            name: 'Sample name',
+            price: 0,
+            user: req.user._id,
+            image: '/images/sample.jpg',
+            brand: 'Sample brand',
+            category: category,
+            countInStock: 0,
+            numReviews: 0,
+            description: 'Sample description'
+        })
+        const createdProduct =  await product.save()
+        res.status(201).json(createdProduct)
+    }
 
-    const createdProduct =  await product.save()
-    res.status(201).json(createdProduct)
 
 })
 
@@ -88,15 +95,16 @@ const updateProduct = asyncHandler(async (req, res) =>{
     
     const { name, price, description, image, brand, category, countInStock } = req.body
 
+    const categoryToInsert = await Category.findById(category)
     const product = await Product.findById(req.params.id)
 
-    if(product){
+    if(product && categoryToInsert){
         product.name = name
         product.price = price
         product.description = description
         product.image = image
         product.brand = brand
-        product.category = category
+        product.category = categoryToInsert
         product.countInStock = countInStock
 
 

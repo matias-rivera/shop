@@ -22,6 +22,11 @@ const Product = ({product}) => {
             </Card.Text>
             <Card.Text as="h3">${product.price}</Card.Text>
             </Card.Body>
+            <Card.Footer className='m-0 p-0 text-center bg-warning'>
+                <Link className='text-secondary' to={`/search`}>
+                    {product.category.name}
+                </Link>
+            </Card.Footer>
         </Card>
      );
 }

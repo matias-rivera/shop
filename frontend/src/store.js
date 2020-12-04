@@ -28,11 +28,13 @@ import {
     orderDeliverReducer,
     orderListReducer 
 } from './reducers/orderReducers';
-
+import { categoryListReducer } from './reducers/categoryReducers';
 
 
 
 const reducer = combineReducers({
+    categoryList: categoryListReducer,
+
     productList: productListReducer,
     productDetails: productDetailsReducer,
     productDelete: productDeleteReducer,
@@ -40,7 +42,9 @@ const reducer = combineReducers({
     productUpdate:productUpdateReducer,
     productReviewCreate: productReviewCreateReducer,
     productTopRated: productTopRatedReducer,
+
     cart: cartReducer,
+
     userLogin: userLoginReducer,
     userRegister: userRegisterReducer,
     userDetails: userDetailsReducer,
@@ -48,6 +52,7 @@ const reducer = combineReducers({
     usersList: usersListReducer,
     userDelete: userDeleteReducer,
     userUpdate: userUpdateReducer,
+    
     orderCreate: orderCreateReducer,
     orderDetails: orderDetailsReducer,
     orderPay: orderPayReducer,

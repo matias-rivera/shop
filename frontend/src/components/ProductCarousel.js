@@ -5,7 +5,7 @@ import Loader from './Loader';
 import Message from './Message';
 import { listTopProducts } from './../actions/productActions';
 import { useDispatch, useSelector } from 'react-redux';
-
+import "./carousel.css";
 
 const ProductCarousel = () => {
     const dispatch = useDispatch()
@@ -19,10 +19,11 @@ const ProductCarousel = () => {
 
     return loading ? <Loader /> : error ? <Message variant='danger'>{error}</Message>
         :(
-            <Carousel
-                pause='hover'
-                className='bg-dark'
-            >
+            <div className='carousel-background'>
+                <Carousel
+                    pause='hover'
+                    styles={{background:'transparent'}}
+                >
                 {products.map(product=> (
                     <Carousel.Item key={product._id}>
                         <Link to={`/product/${product._id}`}>
@@ -34,6 +35,7 @@ const ProductCarousel = () => {
                     </Carousel.Item>
                 ))}
             </Carousel>
+            </div>
         )
 }
  

@@ -18,6 +18,7 @@ import UserEditScreen from './screens/UserEditScreen';
 import ProductListScreen from './screens/ProductListScreen';
 import ProductEditScreen from './screens/ProductEditScreen';
 import OrderListScreen from './screens/OrderListScreen';
+import SearchScreen from './screens/SearchScreen';
 
 const App = () => {
   return (
@@ -42,6 +43,7 @@ const App = () => {
           <Route path='/cart/:id?' component={CartScreen}/>
           <Route path='/search/:keyword/page/:pageNumber' component={HomeScreen} exact/>
           <Route path='/search/:keyword' component={HomeScreen} exact/>
+          <Route path='/search' component={SearchScreen} exact />
           <Route path='/page/:pageNumber' component={HomeScreen} exact/>
           <Route path='/' component={HomeScreen} exact/>
         </Container>

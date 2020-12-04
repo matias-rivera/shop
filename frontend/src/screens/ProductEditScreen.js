@@ -8,6 +8,7 @@ import Loader from '../components/Loader'
 import FormContainer from './../components/FormContainer'
 import { listProductDetails, updateProduct } from '../actions/productActions'
 import { PRODUCT_DETAILS_RESET, PRODUCT_UPDATE_RESET } from '../constants/productConstants'
+import { listCategories } from '../actions/categoryActions'
 
 const ProductEditScreen = ({match, history}) => {
 
@@ -28,6 +29,10 @@ const ProductEditScreen = ({match, history}) => {
     const productDetails = useSelector(state => state.productDetails)
     const {loading, error, product} = productDetails
 
+    //categories list
+    const categoryList = useSelector(state => state.categoryList)
+    const {loadingCategories, errorCategories, categories} = categoryList
+
     //product update state
     const productUpdate = useSelector(state => state.productUpdate)
     const {loading: loadingUpdate, error: errorUpdate, success: successUpdate} = productUpdate
@@ -44,6 +49,7 @@ const ProductEditScreen = ({match, history}) => {
             //load product data
             if(!product.name || product._id !== productId) {
                 dispatch(listProductDetails(productId))
+                dispatch(listCategories())
             } else{
                 //set states
                 setName(product.name)
@@ -53,6 +59,7 @@ const ProductEditScreen = ({match, history}) => {
                 setCategory(product.category)
                 setCountInStock(product.countInStock)
                 setDescription(product.description)
+                setCategory(product.category._id)
             }
 
         }
@@ -192,17 +199,21 @@ const ProductEditScreen = ({match, history}) => {
                     >
                     </Form.Control>
                 </Form.Group>
-
-                <Form.Group controlId='category'>
-                    <Form.Label>
-                         Category
-                    </Form.Label>
-                    <Form.Control
-                        type='text'
-                        placeholder='Enter category'
+                
+                <Form.Group controlId="category">
+                    <Form.Label>Category</Form.Label>
+                    <Form.Control 
+                        as="select"
                         value={category}
                         onChange={(e) => setCategory(e.target.value)}
                     >
+                     {loadingCategories ? <Loader /> : errorCategories ? <Message variant='danger'>{errorCategories}</Message> :
+                    (
+                        categories.map(category => (
+                            <option key={category._id} value={category._id}>{category.name}</option>
+                        ))
+                    ) 
+                    }
                     </Form.Control>
                 </Form.Group>
 
