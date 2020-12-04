@@ -41,8 +41,12 @@ const App = () => {
           <Route path='/login' component={LoginScreen}/>
           <Route path='/product/:id' component={ProductScreen}/>
           <Route path='/cart/:id?' component={CartScreen}/>
-          <Route path='/search/:keyword/page/:pageNumber' component={HomeScreen} exact/>
-          <Route path='/search/:keyword' component={HomeScreen} exact/>
+{/*           <Route path='/search/:keyword/page/:pageNumber' component={HomeScreen} exact/>
+          <Route path='/search/:keyword' component={HomeScreen} exact/> */}
+          <Route path='/search/:category/category/page/:pageNumber' component={SearchScreen} exact />
+          <Route path='/search/:keyword/page/:pageNumber' component={SearchScreen} exact/>
+          <Route path='/search/:category/category' component={SearchScreen} exact />
+          <Route path='/search/:keyword' component={SearchScreen} exact />
           <Route path='/search' component={SearchScreen} exact />
           <Route path='/page/:pageNumber' component={HomeScreen} exact/>
           <Route path='/' component={HomeScreen} exact/>

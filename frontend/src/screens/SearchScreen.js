@@ -6,14 +6,18 @@ import { listProducts } from '../actions/productActions';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 import Paginate from '../components/Paginate';
+import PaginateSearch from '../components/PaginateSearch';
 import Product from '../components/Product';
 
 const SearchScreen = ({match}) => {
-
-    const [range, setRange] = useState(200)
-
+    
+    const category = match.params.category
     const keyword = match.params.keyword
     const pageNumber = match.params.pageNumber || 1
+
+    const [range, setRange] = useState(null)
+    const [selectedCategory, setSelectedCategory] = useState(category ? category : '')
+
 
     const dispatch = useDispatch()
 
@@ -28,9 +32,30 @@ const SearchScreen = ({match}) => {
     
 
     useEffect(() => {
-        dispatch(listProducts(keyword, pageNumber))
-        dispatch(listCategories())
-    },[dispatch, keyword, pageNumber])
+        if(category){
+            setSelectedCategory(category)
+        }
+    },[category])
+
+    useEffect(() => {
+        if(!categories || categories.length === 0){
+            dispatch(listCategories())
+        }
+        dispatch(listProducts(keyword, pageNumber, selectedCategory,range))
+        
+    },[dispatch, keyword, pageNumber, selectedCategory,range])
+
+    const handleCategories = (e, categoryName) => {
+        e.preventDefault();
+        setSelectedCategory(categoryName)
+        
+    }
+
+    const handleRange = (e, rangeSelected) => {
+        e.preventDefault();
+        setRange(rangeSelected)
+        
+    }
 
     return ( 
         <Row>
@@ -39,20 +64,26 @@ const SearchScreen = ({match}) => {
                 <ListGroup>
                     {loadingCategories ? <Loader /> : errorCategories ? <Message variant='danger'>{errorCategories}</Message> :
                         (
-                            categories.map(category => (
-                                <ListGroup.Item key={category._id}>{category.name}</ListGroup.Item>
-                            ))
+                            <>
+                            <ListGroup.Item active={selectedCategory === ''} onClick={(e) => handleCategories(e,'')}>All</ListGroup.Item>
+                            {categories.map(cat => (
+                                <ListGroup.Item key={cat._id} active={selectedCategory === cat.name} onClick={(e) => handleCategories(e,cat.name)}>{cat.name}</ListGroup.Item>
+                            ))}
+
+                            </>
                         ) 
                     }
                     
                 </ListGroup>
                 <h3>Filter by price range</h3>
-                <Form>
-                    <Form.Group controlId="formBasicRange">
-                        <Form.Label className='h4'>Range: ${range}</Form.Label>
-                        <Form.Control type="range" min={1} max={1000} value={range} name='range' onChange={(e) => setRange(parseInt(e.target.value))}/>
-                    </Form.Group>
-                </Form>
+                <ListGroup>
+                   <ListGroup.Item active={!range} onClick={(e) => handleRange(e,null)} >All</ListGroup.Item>
+                   <ListGroup.Item active={range === 1000} onClick={(e) => handleRange(e,1000)} >$1000</ListGroup.Item>
+                   <ListGroup.Item active={range === 500} onClick={(e) => handleRange(e,500)} >$500</ListGroup.Item>
+                   <ListGroup.Item active={range === 200} onClick={(e) => handleRange(e,200)} >$200</ListGroup.Item>
+                   <ListGroup.Item active={range === 100} onClick={(e) => handleRange(e,100)} >$100</ListGroup.Item>
+                   <ListGroup.Item active={range === 50} onClick={(e) => handleRange(e,50)} >$50</ListGroup.Item>
+                </ListGroup>
             </Col>
             <Col className='col-12 col-md-8'>
                 {loading ? (<Loader />) 
@@ -67,10 +98,12 @@ const SearchScreen = ({match}) => {
                         </Col>
                     )) }
                     </Row>
-                    <Paginate 
+                    <PaginateSearch 
                         pages={pages} 
                         page={page} 
-                        keyword={keyword ? keyword : ''} />
+                        keyword={keyword ? keyword : ''} 
+                        category={category ? category : ''}
+                        />
                     </>
                     )}
             </Col>

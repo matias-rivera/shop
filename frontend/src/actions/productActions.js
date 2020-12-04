@@ -24,12 +24,12 @@ import {
 } from '../constants/productConstants'
 
 //get products list
-export const listProducts = (keyword = '', pageNumber = '') =>  async (dispatch) => { 
+export const listProducts = (keyword = '', pageNumber = '', category = '', range = null) =>  async (dispatch) => { 
     try{
         dispatch({type: PRODUCT_LIST_REQUEST})
         
         //api call to get all products
-        const {data} = await axios.get(`/api/products?keyword=${keyword}&pageNumber=${pageNumber}`)
+        const {data} = await axios.get(`/api/products?keyword=${keyword}&pageNumber=${pageNumber}&category=${category}&range=${range ? range : ''}`)
         console.log(data)
         dispatch({
             type: PRODUCT_LIST_SUCCESS,

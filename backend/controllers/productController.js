@@ -11,25 +11,47 @@ const getProducts = asyncHandler(async (req, res) =>{
     //pages constans
     const pageSize = 10
     const page = Number(req.query.pageNumber) || 1
-
-    //check for keywords
-    const keyword = req.query.keyword ? {
-        name: {
-            $regex: req.query.keyword,
-            $options: 'i'
-        }
-    } : {}
-
-    //get number of products
-    const count = await Product.countDocuments({...keyword})
+    const categoryName = req.query.category || ''
+    const range = req.query.range
 
 
-    const products = await Product.find({...keyword})
-        .populate('category','_id name','Category')
-        .limit(pageSize)
-        .skip(pageSize * (page - 1))
-    res.json({products, page, pages: Math.ceil(count / pageSize)})
+    Category.find({name:{$regex: categoryName, $options: 'i'}}).then(async category => {
+        //check for keyword
+        
+            let keyword = req.query.keyword ? {
+                name: {
+                    $regex: req.query.keyword,
+                    $options: 'i'
+                },
+                
+            } : {}
+            if(category){
+                keyword = {...keyword, category:category}
+            }
+            if(range){
+                keyword = {...keyword, price:{$lte:range}}
+            }
+        
+        
+    
+            //get number of products
+            const count = await Product.countDocuments({...keyword})
+        
+        
+            const products = await Product.find({...keyword})
+                .populate('category','_id name','Category')
+                .limit(pageSize)
+                .skip(pageSize * (page - 1))
+            res.json({products, page, pages: Math.ceil(count / pageSize)})
+
+    })
+
+
+   
+
+    
 })
+
 
 
 //@desc     Fetch single product
