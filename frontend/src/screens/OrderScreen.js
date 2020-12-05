@@ -72,12 +72,19 @@ const OrderScreen = ({ match, history }) => {
             dispatch(getOrderDetails(orderId))
             dispatch({ type: ORDER_PAY_RESET })
             dispatch({ type: ORDER_DELIVER_RESET })
+            
         } else if(!order.isPaid){
             //if order wasn't paid, show paypal checkout
             if(!window.paypal){
                 addPayPalScript()
             }else{
                 setSdkReady(true)
+            }
+        }
+
+        if(order){
+            if(order.user._id !== userInfo._id && userInfo.isAdmin === false){
+                history.push('/')
             }
         }
 

@@ -58,7 +58,7 @@ const SearchScreen = ({match}) => {
     }
 
     return ( 
-        <Row className='bg-light'>
+        <Row >
             <Col className='col-12 col-md-4'>
                 <h3>Categories</h3>
                 <ListGroup>

@@ -1,7 +1,6 @@
 main {
     min-height: 80vh;
-    background: url('/background.png');
-    background-repeat: repeat;
+
 }
 
 h3 {
