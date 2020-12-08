@@ -35,5 +35,6 @@ npm run dev
 ```
 
 ### Preview :mag:
-![alt text](https://i.ibb.co/7y2HZgk/shop1.png)
-![alt text](https://i.ibb.co/6gYt1GY/shop2.png)
+![home](https://i.ibb.co/X7yGk6r/home.png)
+![search](https://i.ibb.co/MnhVjDf/search.png)
+![product](https://i.ibb.co/Z1wqRR2/product.png)
