@@ -1,6 +1,6 @@
 import React,{useState, useEffect} from 'react'
 import { Link } from 'react-router-dom'
-import { Form, Button, Row, Col, Image} from 'react-bootstrap'
+import { Form, Button, Row, Col, Image, Alert} from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
@@ -80,6 +80,10 @@ const LoginScreen = ({location, history}) => {
                     </Link>
                 </Col>
             </Row>
+            <Alert variant='info'>
+                <p>admin@example.com</p>
+                <p>123456</p>
+            </Alert>
         </FormContainer>
      )
 }

@@ -1,7 +1,7 @@
 import React,{useState, useEffect} from 'react'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
-import { Form, Button} from 'react-bootstrap'
+import { Form, Button, Alert} from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
@@ -173,6 +173,9 @@ const ProductEditScreen = ({match, history}) => {
                         onChange={uploadingFileHandler}
                     ></Form.File>
                     {uploading && <Loader />}
+                    <Alert variant='danger'>
+                        <p>No se puede subir imágenes debido al host.</p>
+                    </Alert>
                 </Form.Group>
 
                 <Form.Group controlId='brand'>

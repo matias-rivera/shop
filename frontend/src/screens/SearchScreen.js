@@ -13,7 +13,7 @@ const SearchScreen = ({match}) => {
     
     const category = match.params.category
     const keyword = match.params.keyword
-    const pageNumber = match.params.pageNumber || 1
+    let pageNumber = match.params.pageNumber || 1
 
     const [range, setRange] = useState(null)
     const [selectedCategory, setSelectedCategory] = useState(category ? category : '')
@@ -38,12 +38,17 @@ const SearchScreen = ({match}) => {
     },[category])
 
     useEffect(() => {
+        pageNumber = 1
+        dispatch(listProducts(keyword, 1, selectedCategory,range))
+    }, [selectedCategory])
+
+    useEffect(() => {
         if(!categories || categories.length === 0){
             dispatch(listCategories())
         }
         dispatch(listProducts(keyword, pageNumber, selectedCategory,range))
         
-    },[dispatch, keyword, pageNumber, selectedCategory,range])
+    },[dispatch, keyword, pageNumber,range])
 
     const handleCategories = (e, categoryName) => {
         e.preventDefault();
@@ -102,7 +107,7 @@ const SearchScreen = ({match}) => {
                         pages={pages} 
                         page={page} 
                         keyword={keyword ? keyword : ''} 
-                        category={category ? category : ''}
+                        category={category ? category : ''} 
                         />
                     </>
                     )}

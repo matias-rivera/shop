@@ -39,7 +39,7 @@ const Header = () => {
                         <LinkContainer to="/cart">
                             <Nav.Link ><i className="fas fa-shopping-cart" ></i> CART {cartItems.length > 0 && `(${cartItems.length})`}</Nav.Link>
                         </LinkContainer>
-                        <LinkContainer to="/search">
+                        <LinkContainer to="/search/page/1">
                             <Nav.Link >STORE</Nav.Link>
                         </LinkContainer>
                         

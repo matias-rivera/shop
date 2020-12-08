@@ -45,9 +45,11 @@ const App = () => {
           <Route path='/cart/:id?' component={CartScreen}/>
 {/*           <Route path='/search/:keyword/page/:pageNumber' component={HomeScreen} exact/>
           <Route path='/search/:keyword' component={HomeScreen} exact/> */}
-          <Route path='/search/:category/category/page/:pageNumber' component={SearchScreen} exact />
+{/*           <Route path='/search/:keyword/keyword/:category/category/page/:pageNumber' component={SearchScreen} exact />
+ */}       <Route path='/search/:category/category/page/:pageNumber' component={SearchScreen} exact />
           <Route path='/search/:keyword/page/:pageNumber' component={SearchScreen} exact/>
           <Route path='/search/:category/category' component={SearchScreen} exact />
+          <Route path='/search/page/:pageNumber' component={SearchScreen} exact />
           <Route path='/search/:keyword' component={SearchScreen} exact />
           <Route path='/search' component={SearchScreen} exact />
           <Route path='/page/:pageNumber' component={HomeScreen} exact/>

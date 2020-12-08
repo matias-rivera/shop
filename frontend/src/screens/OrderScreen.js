@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import axios from 'axios'
 import {PayPalButton} from 'react-paypal-button-v2'
 import { Link } from 'react-router-dom';
-import {  Row, Col, ListGroup, Image, Card, Button } from 'react-bootstrap'
+import {  Row, Col, ListGroup, Image, Card, Button, Alert } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from './../components/Message'
 import { getOrderDetails, payOrder, deliverOrder } from './../actions/orderActions';
@@ -193,6 +193,7 @@ const OrderScreen = ({ match, history }) => {
                             </Row>
                         </ListGroup.Item>
                         {!order.isPaid && (
+                            <>
                             <ListGroup.Item>
                                 {loadingPay && <Loader />}
                                 {!sdkReady ? <Loader /> : (
@@ -202,6 +203,14 @@ const OrderScreen = ({ match, history }) => {
                                     />
                                 )}
                             </ListGroup.Item>
+                            <ListGroup.Item>
+                                PayPal: 
+                                <Alert variant='info' className='h6'>
+                                    <p>john_123@personal.example.com</p>
+                                    <p>{'mf0zn<@R'}</p>
+                                </Alert>
+                            </ListGroup.Item>
+                            </>
                         )}
                         {loadingDeliver && <Loader/>}
                         {userInfo && userInfo.isAdmin && order.isPaid && !order.isDelivered && (

@@ -9,7 +9,7 @@ import Category from '../models/categoryModel.js'
 const getProducts = asyncHandler(async (req, res) =>{
 
     //pages constans
-    const pageSize = 10
+    const pageSize = 12
     const page = Number(req.query.pageNumber) || 1
     const categoryName = req.query.category || ''
     const range = req.query.range

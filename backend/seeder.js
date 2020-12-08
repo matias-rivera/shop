@@ -27,6 +27,12 @@ const importData = async() => {
         //create category
         const category = new Category({name:'Electronics'})
         await category.save()
+        const category2 = new Category({name:'Videogames'})
+        await category2.save()
+        const category3 = new Category({name:'Video Game Console'})
+        await category3.save()
+        const category4 = new Category({name:'Graphics Card'})
+        await category4.save()
         
         //get admin id
         const adminUser = createdUsers[0]._id
