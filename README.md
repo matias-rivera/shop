@@ -2,6 +2,9 @@
 
 _E-commerce App desarrollada con el stack MERN (MongoDB, Express, ReactJS y NodeJS), además utilizá Redux en el front-end._
 
+### Demo :computer:
+https://electro-eshop.herokuapp.com/
+
 ### Instalación 🔧
 
 _1- Clonar el proyecto._
@@ -31,6 +34,6 @@ _5- Ejecuta el siguiente comando para probar la aplicación:_
 npm run dev
 ```
 
-### Preview
+### Preview :mag:
 ![alt text](https://i.ibb.co/7y2HZgk/shop1.png)
 ![alt text](https://i.ibb.co/6gYt1GY/shop2.png)
