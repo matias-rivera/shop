@@ -1,54 +1,47 @@
-import React, { useState } from 'react';
-import { Form, Col, Button } from 'react-bootstrap'
+import React, { useState } from "react";
+import { Form, Col, Button } from "react-bootstrap";
 
-const SearchBox = ({history}) => {
-    const [keyword, setKeyword] = useState('')
+const SearchBox = ({ history }) => {
+    const [keyword, setKeyword] = useState("");
 
     const submitHandler = (e) => {
         e.preventDefault();
-        if(keyword.trim()){
-            history.push(`/search/${keyword}`)
+        if (keyword.trim()) {
+            history.push(`/search/${keyword}`);
         } else {
-            history.push('/search')
+            history.push("/search");
         }
-    }
+    };
 
-    return ( 
+    return (
         <Form
             onSubmit={submitHandler}
-           inline
+            inline
+            className="search-box"
+            style={{ height: "50px" }}
         >
-            <Form.Row className='d-flex align-items-center' >
-                        <Col xs={8}>
-                        
-                        <Form.Control
-                        type='text'
-                        name='q'
-                        onChange={(e) => setKeyword(e.target.value)}
-                        placeholder='Search Products...'
-                        className='mr-sm-2 nl-sn-5'
-                        
-                        >
-                        </Form.Control>
-                        </Col>
-                        <Col xs={4}>
-                        <Button
-                            type='submit'
-                            variant='warning'
-                            
-                            
-                            >
-                            Search
-                        </Button>
-                        
-                        </Col>
-         
-          
-               
-                 
-            </Form.Row>
+            <Form.Control
+                type="text"
+                onChange={(e) => setKeyword(e.target.value)}
+                placeholder="Search Products..."
+                style={{ height: "100%" }}
+            />
+            <Button
+                type="submit"
+                variant="warning"
+                style={{
+                    height: "100%",
+                    fontSize: "1rem",
+                    display: "flex",
+
+                    justifyContent: "center",
+                    alignItems: "center",
+                }}
+            >
+                <i class="fa fa-search" aria-hidden="true"></i>
+            </Button>
         </Form>
-     );
-}
- 
+    );
+};
+
 export default SearchBox;

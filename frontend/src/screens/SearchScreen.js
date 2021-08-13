@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Row, Col, ListGroup, Form } from "react-bootstrap";
+import { Row, Col, ListGroup, Form, Badge, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { listCategories } from "../actions/categoryActions";
 import { listProducts } from "../actions/productActions";
@@ -9,9 +9,9 @@ import Paginate from "../components/Paginate";
 import PaginateSearch from "../components/PaginateSearch";
 import Product from "../components/Product";
 
-const SearchScreen = ({ match }) => {
-    const category = match.params.category;
-    const keyword = match.params.keyword;
+const SearchScreen = ({ history, match }) => {
+    const category = match.params.category || "";
+    const keyword = match.params.keyword || "";
     /* let pageNumber = match.params.pageNumber || 1 */
 
     const [range, setRange] = useState(null);
@@ -61,73 +61,103 @@ const SearchScreen = ({ match }) => {
     return (
         <Row>
             <Col className="col-12 col-md-4">
-                <h3>Categories</h3>
-                <ListGroup>
-                    {loadingCategories ? (
-                        <Loader />
-                    ) : errorCategories ? (
-                        <Message variant="danger">{errorCategories}</Message>
-                    ) : (
-                        <>
+                {keyword && (
+                    <>
+                        <h3 className="d-none d-sm-block">Searched</h3>
+                        <Button
+                            className="mb-2"
+                            variant="warning"
+                            style={{
+                                display: "flex",
+                                gap: "1rem",
+                                alignItems: "center",
+                            }}
+                            onClick={() => {
+                                history.push("/search");
+                            }}
+                        >
+                            {keyword}
+                            <i class="fa fa-times" aria-hidden="true"></i>
+                        </Button>
+                    </>
+                )}
+                <Row noGutters={true}>
+                    <Col className="col-6 col-md-12">
+                        <h3 className="d-none d-sm-block">Categories</h3>
+                        <ListGroup>
+                            {loadingCategories ? (
+                                <Loader />
+                            ) : errorCategories ? (
+                                <Message variant="danger">
+                                    {errorCategories}
+                                </Message>
+                            ) : (
+                                <>
+                                    <ListGroup.Item
+                                        active={selectedCategory === ""}
+                                        onClick={(e) => handleCategories(e, "")}
+                                    >
+                                        All
+                                    </ListGroup.Item>
+                                    {categories.map((cat) => (
+                                        <ListGroup.Item
+                                            key={cat._id}
+                                            active={
+                                                selectedCategory === cat.name
+                                            }
+                                            onClick={(e) =>
+                                                handleCategories(e, cat.name)
+                                            }
+                                        >
+                                            {cat.name}
+                                        </ListGroup.Item>
+                                    ))}
+                                </>
+                            )}
+                        </ListGroup>
+                    </Col>
+                    <Col className="col-6 col-md-12">
+                        <h3 className="d-none d-sm-block">Price</h3>
+                        <ListGroup>
                             <ListGroup.Item
-                                active={selectedCategory === ""}
-                                onClick={(e) => handleCategories(e, "")}
+                                active={!range}
+                                onClick={(e) => handleRange(e, null)}
                             >
                                 All
                             </ListGroup.Item>
-                            {categories.map((cat) => (
-                                <ListGroup.Item
-                                    key={cat._id}
-                                    active={selectedCategory === cat.name}
-                                    onClick={(e) =>
-                                        handleCategories(e, cat.name)
-                                    }
-                                >
-                                    {cat.name}
-                                </ListGroup.Item>
-                            ))}
-                        </>
-                    )}
-                </ListGroup>
-                <h3>Filter by price</h3>
-                <ListGroup>
-                    <ListGroup.Item
-                        active={!range}
-                        onClick={(e) => handleRange(e, null)}
-                    >
-                        All
-                    </ListGroup.Item>
-                    <ListGroup.Item
-                        active={range === 1000}
-                        onClick={(e) => handleRange(e, 1000)}
-                    >
-                        $1000
-                    </ListGroup.Item>
-                    <ListGroup.Item
-                        active={range === 500}
-                        onClick={(e) => handleRange(e, 500)}
-                    >
-                        $500
-                    </ListGroup.Item>
-                    <ListGroup.Item
-                        active={range === 200}
-                        onClick={(e) => handleRange(e, 200)}
-                    >
-                        $200
-                    </ListGroup.Item>
-                    <ListGroup.Item
-                        active={range === 100}
-                        onClick={(e) => handleRange(e, 100)}
-                    >
-                        $100
-                    </ListGroup.Item>
-                    <ListGroup.Item
-                        active={range === 50}
-                        onClick={(e) => handleRange(e, 50)}
-                    >
-                        $50
-                    </ListGroup.Item>
-                </ListGroup>
+                            <ListGroup.Item
+                                active={range === 1000}
+                                onClick={(e) => handleRange(e, 1000)}
+                            >
+                                $1000
+                            </ListGroup.Item>
+                            <ListGroup.Item
+                                active={range === 500}
+                                onClick={(e) => handleRange(e, 500)}
+                            >
+                                $500
+                            </ListGroup.Item>
+                            <ListGroup.Item
+                                active={range === 200}
+                                onClick={(e) => handleRange(e, 200)}
+                            >
+                                $200
+                            </ListGroup.Item>
+                            <ListGroup.Item
+                                active={range === 100}
+                                onClick={(e) => handleRange(e, 100)}
+                            >
+                                $100
+                            </ListGroup.Item>
+                            <ListGroup.Item
+                                active={range === 50}
+                                onClick={(e) => handleRange(e, 50)}
+                            >
+                                $50
+                            </ListGroup.Item>
+                        </ListGroup>
+                    </Col>
+                </Row>
             </Col>
             <Col className="col-12 col-md-8">
                 {loading ? (
@@ -137,17 +167,23 @@ const SearchScreen = ({ match }) => {
                 ) : (
                     <>
                         <Row>
-                            {products.map((product) => (
-                                <Col
-                                    key={product._id}
-                                    sm={12}
-                                    md={6}
-                                    lg={4}
-                                    xl={4}
-                                >
-                                    <Product product={product} />
-                                </Col>
-                            ))}
+                            {products.length > 0 ? (
+                                products.map((product) => (
+                                    <Col
+                                        key={product._id}
+                                        sm={12}
+                                        md={6}
+                                        lg={4}
+                                        xl={4}
+                                    >
+                                        <Product product={product} />
+                                    </Col>
+                                ))
+                            ) : (
+                                <Message variant="danger" className="center">
+                                    No products found.
+                                </Message>
+                            )}
                         </Row>
                         <PaginateSearch
                             pages={pages}

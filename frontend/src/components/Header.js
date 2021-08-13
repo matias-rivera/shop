@@ -35,7 +35,7 @@ const Header = () => {
                                 )}
                             />
                         </Nav>
-                        <Nav className="ml-auto">
+                        <Nav className="ml-auto h5">
                             <LinkContainer to="/cart">
                                 <Nav.Link>
                                     <i className="fas fa-shopping-cart"></i>{" "}
@@ -54,12 +54,15 @@ const Header = () => {
                                     id="username"
                                     className="mr-0"
                                 >
-                                    <LinkContainer to="/profile">
+                                    <LinkContainer to="/profile" className="h4">
                                         <NavDropdown.Item>
                                             Profile
                                         </NavDropdown.Item>
                                     </LinkContainer>
-                                    <NavDropdown.Item onClick={logoutHandler}>
+                                    <NavDropdown.Item
+                                        onClick={logoutHandler}
+                                        className="h4"
+                                    >
                                         Logout
                                     </NavDropdown.Item>
                                 </NavDropdown>
@@ -72,17 +75,26 @@ const Header = () => {
                             )}
                             {userInfo && userInfo.isAdmin && (
                                 <NavDropdown title={"ADMIN"} id="adminmenu">
-                                    <LinkContainer to="/admin/userslist">
+                                    <LinkContainer
+                                        to="/admin/userslist"
+                                        className="h4"
+                                    >
                                         <NavDropdown.Item>
                                             Users
                                         </NavDropdown.Item>
                                     </LinkContainer>
-                                    <LinkContainer to="/admin/productlist">
+                                    <LinkContainer
+                                        to="/admin/productlist"
+                                        className="h4"
+                                    >
                                         <NavDropdown.Item>
                                             Products
                                         </NavDropdown.Item>
                                     </LinkContainer>
-                                    <LinkContainer to="/admin/orderlist">
+                                    <LinkContainer
+                                        to="/admin/orderlist"
+                                        className="h4"
+                                    >
                                         <NavDropdown.Item>
                                             Orders
                                         </NavDropdown.Item>
